@@ -1,5 +1,5 @@
-import { Environment } from "@vertexvis/viewer";
-import { EnvironmentWithCustom } from "./with-session";
+import { Environment } from '@vertexvis/viewer';
+import { EnvironmentWithCustom } from './with-session';
 
 export interface AccountCredentials {
   readonly clientId: string;
@@ -26,10 +26,10 @@ export function isValidHttpUrl(givenUrl?: string): boolean {
     const url = new URL(givenUrl);
 
     return (
-      url.protocol === "http:" ||
-      url.protocol === "https:" ||
-      url.protocol === "ws:" ||
-      url.protocol === "wss:"
+      url.protocol === 'http:' ||
+      url.protocol === 'https:' ||
+      url.protocol === 'ws:' ||
+      url.protocol === 'wss:'
     );
   } catch (_) {
     return false;
@@ -37,7 +37,7 @@ export function isValidHttpUrl(givenUrl?: string): boolean {
 }
 
 export function isValidHttpUrlNullable(givenUrl?: string): boolean {
-  if (givenUrl == null || givenUrl.trim() === "") {
+  if (givenUrl == null || givenUrl.trim() === '') {
     return true;
   }
   return isValidHttpUrl(givenUrl);

@@ -1,14 +1,14 @@
-import { ExpandMore } from "@mui/icons-material";
-import { Accordion, AccordionSummary, Drawer, Typography } from "@mui/material";
-import { drawerClasses } from "@mui/material/Drawer";
-import { styled } from "@mui/material/styles";
-import { SceneViewStateData } from "@vertexvis/api-client-node";
-import React from "react";
+import { ExpandMore } from '@mui/icons-material';
+import { Accordion, AccordionSummary, Drawer, Typography } from '@mui/material';
+import { drawerClasses } from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
+import { SceneViewStateData } from '@vertexvis/api-client-node';
+import React from 'react';
 
-import { Metadata } from "../../lib/metadata";
-import { RightDrawerWidth } from "./Layout";
-import { MetadataProperties } from "./MetadataProperties";
-import { SceneViewStateList } from "./SceneViewStateList";
+import { Metadata } from '../../lib/metadata';
+import { RightDrawerWidth } from './Layout';
+import { MetadataProperties } from './MetadataProperties';
+import { SceneViewStateList } from './SceneViewStateList';
 
 interface Props {
   readonly metadata?: Metadata;
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const Title = styled((props) => <Typography variant="body2" {...props} />)(
-  () => ({ textTransform: "uppercase" })
+  () => ({ textTransform: 'uppercase' })
 );
 
 export function RightDrawer({
@@ -29,7 +29,7 @@ export function RightDrawer({
     <Drawer
       anchor="right"
       sx={{
-        display: { sm: "block", xs: "none" },
+        display: { sm: 'block', xs: 'none' },
         width: RightDrawerWidth,
         [`& .${drawerClasses.paper}`]: { width: RightDrawerWidth },
       }}

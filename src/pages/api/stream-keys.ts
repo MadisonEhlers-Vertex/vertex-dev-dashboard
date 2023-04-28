@@ -1,8 +1,8 @@
 import {
   isFailure,
   StreamKeysApiCreateSceneStreamKeyRequest,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -11,21 +11,21 @@ import {
   MethodNotAllowed,
   Res,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession, makeCall } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession, makeCall } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export interface CreateStreamKeyRes extends Res {
   readonly key: string;
 }
 
-type CreateStreamKeyReq = Pick<StreamKeysApiCreateSceneStreamKeyRequest, "id">;
+type CreateStreamKeyReq = Pick<StreamKeysApiCreateSceneStreamKeyRequest, 'id'>;
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<CreateStreamKeyRes | ErrorRes>
 ): Promise<void> {
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -46,11 +46,11 @@ async function create(
     c.streamKeys.createSceneStreamKey({
       id: b.id,
       createStreamKeyRequest: {
-        data: { type: "stream-key", attributes: { expiry: 86400 } },
+        data: { type: 'stream-key', attributes: { expiry: 86400 } },
       },
     })
   );
   return isFailure(r)
     ? toErrorRes({ failure: r })
-    : { key: r.data.attributes.key ?? "", status: 200 };
+    : { key: r.data.attributes.key ?? '', status: 200 };
 }

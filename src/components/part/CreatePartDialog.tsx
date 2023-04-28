@@ -12,12 +12,12 @@ import {
   RadioGroup,
   TextField,
   Typography,
-} from "@mui/material";
-import React from "react";
-import useSWR from "swr";
+} from '@mui/material';
+import React from 'react';
+import useSWR from 'swr';
 
-import { toFilePage } from "../../lib/files";
-import { CreatePartReq, CreatePartRes } from "../../pages/api/parts";
+import { toFilePage } from '../../lib/files';
+import { CreatePartReq, CreatePartRes } from '../../pages/api/parts';
 
 interface CreatePartDialogProps {
   readonly open: boolean;
@@ -67,8 +67,8 @@ export default function CreatePartDialog({
     };
 
     const partRes: CreatePartRes = await (
-      await fetch("/api/parts", {
-        method: "POST",
+      await fetch('/api/parts', {
+        method: 'POST',
         body: JSON.stringify(attrs),
       })
     ).json();
@@ -91,7 +91,7 @@ export default function CreatePartDialog({
         {!targetFileId && (
           <FormControl
             component="fieldset"
-            sx={{ height: 300, width: "100%", overflow: "auto" }}
+            sx={{ height: 300, width: '100%', overflow: 'auto' }}
           >
             <FormLabel htmlFor="files-list" component="legend">
               Recent Files

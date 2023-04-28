@@ -10,11 +10,11 @@ import {
   Select,
   TextField,
   Typography,
-} from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React from "react";
-import { isValidHttpUrl, isValidHttpUrlNullable } from "../lib/config";
+} from '@mui/material';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { isValidHttpUrl, isValidHttpUrlNullable } from '../lib/config';
 
 const IdLength = 64;
 const SecretLength = 26;
@@ -28,29 +28,29 @@ interface NetworkConfigInput {
 
 export default function Login(): JSX.Element {
   const [id, setId] = React.useState<string | undefined>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("vertexvis.client.id") || undefined;
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('vertexvis.client.id') || undefined;
     }
     return undefined;
   });
   const [secret, setSecret] = React.useState<string | undefined>();
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [error, setError] = React.useState('');
   const [env, setEnv] = React.useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("vertexvis.env") || "platprod";
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('vertexvis.env') || 'platprod';
     }
 
-    return "platprod";
+    return 'platprod';
   });
   const [networkConfig, setNetworkConfig] = React.useState<NetworkConfigInput>(
     () => {
-      if (typeof window !== "undefined") {
-        const saved = localStorage.getItem("vertexvis.network.config");
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('vertexvis.network.config');
         try {
           return saved != null ? (JSON.parse(saved) as NetworkConfigInput) : {};
         } catch (e) {
-          console.error("failed to get network config from local storage", e);
+          console.error('failed to get network config from local storage', e);
         }
       }
 
@@ -78,13 +78,13 @@ export default function Login(): JSX.Element {
   function setLocalStorageItems() {
     if (networkConfig != null) {
       localStorage.setItem(
-        "vertexvis.network.config",
+        'vertexvis.network.config',
         JSON.stringify(networkConfig)
       );
     }
-    localStorage.setItem("vertexvis.env", env);
+    localStorage.setItem('vertexvis.env', env);
     if (id != null) {
-      localStorage.setItem("vertexvis.client.id", id);
+      localStorage.setItem('vertexvis.client.id', id);
     }
   }
   async function handleSubmit() {
@@ -92,28 +92,28 @@ export default function Login(): JSX.Element {
     setLoading(true);
     setLocalStorageItems();
     const res = await (
-      await fetch("/api/login", {
+      await fetch('/api/login', {
         body: JSON.stringify({ id, secret, env, networkConfig }),
-        method: "POST",
+        method: 'POST',
       })
     ).json();
 
     if (res.status === 401) {
-      setError("Invalid credentials.");
+      setError('Invalid credentials.');
       setLoading(false);
-    } else if (res.status === 200) router.push("/");
+    } else if (res.status === 200) router.push('/');
   }
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", justifyContent: "center" }}>
+    <Box sx={{ display: 'flex', height: '100vh', justifyContent: 'center' }}>
       <Paper
         sx={{
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-          maxHeight: env === "custom" ? "800px" : "500px",
-          minWidth: "30%",
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          maxHeight: env === 'custom' ? '800px' : '500px',
+          minWidth: '30%',
           mx: 2,
           my: 4,
           p: 4,
@@ -168,7 +168,7 @@ export default function Login(): JSX.Element {
             <MenuItem value="custom">custom</MenuItem>
           </Select>
         </FormControl>
-        {env === "custom" && (
+        {env === 'custom' && (
           <>
             <TextField
               error={invalidApiHost}
@@ -259,7 +259,7 @@ export default function Login(): JSX.Element {
           variant="outlined"
           onClick={handleSubmit}
           disabled={
-            loading || (env === "custom" && !customConfigurationValidated)
+            loading || (env === 'custom' && !customConfigurationValidated)
           }
         >
           {loading && <CircularProgress sx={{ mr: 1 }} size={16} />}

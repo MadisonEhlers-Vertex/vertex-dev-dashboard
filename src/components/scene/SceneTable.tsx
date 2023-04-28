@@ -3,7 +3,7 @@ import {
   MergeTypeOutlined,
   VisibilityOutlined,
   VpnKeyOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -21,25 +21,25 @@ import {
   TableRow,
   TextField,
   Tooltip,
-} from "@mui/material";
-import { Cursors, SceneData } from "@vertexvis/api-client-node";
-import { Environment } from "@vertexvis/viewer";
-import debounce from "lodash.debounce";
-import { useRouter } from "next/router";
-import React from "react";
-import useSWR from "swr";
+} from '@mui/material';
+import { Cursors, SceneData } from '@vertexvis/api-client-node';
+import { Environment } from '@vertexvis/viewer';
+import debounce from 'lodash.debounce';
+import { useRouter } from 'next/router';
+import React from 'react';
+import useSWR from 'swr';
 
-import { ErrorRes, GetRes, isErrorRes } from "../../lib/api";
-import { toLocaleString } from "../../lib/dates";
-import { SwrProps } from "../../lib/paging";
-import { Scene, toScenePage } from "../../lib/scenes";
-import { encodeCreds } from "../../pages/scene-viewer/[sceneId]";
-import CreateSceneDialog from "../shared/CreateSceneDialog";
-import { DataLoadError } from "../shared/DataLoadError";
-import { DefaultPageSize, DefaultRowHeight } from "../shared/Layout";
-import { SkeletonBody } from "../shared/SkeletonBody";
-import { HeadCell, TableHead } from "../shared/TableHead";
-import { TableToolbar } from "../shared/TableToolbar";
+import { ErrorRes, GetRes, isErrorRes } from '../../lib/api';
+import { toLocaleString } from '../../lib/dates';
+import { SwrProps } from '../../lib/paging';
+import { Scene, toScenePage } from '../../lib/scenes';
+import { encodeCreds } from '../../pages/scene-viewer/[sceneId]';
+import CreateSceneDialog from '../shared/CreateSceneDialog';
+import { DataLoadError } from '../shared/DataLoadError';
+import { DefaultPageSize, DefaultRowHeight } from '../shared/Layout';
+import { SkeletonBody } from '../shared/SkeletonBody';
+import { HeadCell, TableHead } from '../shared/TableHead';
+import { TableToolbar } from '../shared/TableToolbar';
 
 interface Props {
   readonly clientId?: string;
@@ -50,18 +50,18 @@ interface Props {
 }
 
 const headCells: readonly HeadCell[] = [
-  { id: "name", disablePadding: true, label: "Name" },
-  { id: "supplied-id", label: "Supplied ID" },
-  { id: "state", label: "State" },
-  { id: "id", label: "ID" },
-  { id: "created", label: "Created" },
-  { id: "actions", label: "Actions" },
+  { id: 'name', disablePadding: true, label: 'Name' },
+  { id: 'supplied-id', label: 'Supplied ID' },
+  { id: 'state', label: 'State' },
+  { id: 'id', label: 'ID' },
+  { id: 'created', label: 'Created' },
+  { id: 'actions', label: 'Actions' },
 ];
 
 function useScenes({ cursor, pageSize, suppliedId }: SwrProps) {
   return useSWR<GetRes<SceneData>, ErrorRes>(
-    `/api/scenes?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ""}${
-      suppliedId ? `&suppliedId=${suppliedId}` : ""
+    `/api/scenes?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ''}${
+      suppliedId ? `&suppliedId=${suppliedId}` : ''
     }`
   );
 }
@@ -141,9 +141,9 @@ export default function SceneTable({
 
   async function handleDelete() {
     setSelected(new Set());
-    await fetch("/api/scenes", {
+    await fetch('/api/scenes', {
       body: JSON.stringify({ ids: [...selected] }),
-      method: "DELETE",
+      method: 'DELETE',
     });
     mutate();
   }
@@ -156,13 +156,13 @@ export default function SceneTable({
     if (!clientId) return;
 
     const json = await (
-      await fetch("/api/stream-keys", {
+      await fetch('/api/stream-keys', {
         body: JSON.stringify({ id: sceneId }),
-        method: "POST",
+        method: 'POST',
       })
     ).json();
 
-    if (isErrorRes(json)) console.error("Error creating stream key.", json);
+    if (isErrorRes(json)) console.error('Error creating stream key.', json);
     else
       router.push(
         encodeCreds({ clientId, streamKey: json.key, vertexEnv, sceneId })
@@ -171,9 +171,9 @@ export default function SceneTable({
 
   async function handleGetStreamKey(sceneId: string) {
     setKeyLoadingSceneId(sceneId);
-    const b = await fetch("/api/stream-keys", {
+    const b = await fetch('/api/stream-keys', {
       body: JSON.stringify({ id: sceneId }),
-      method: "POST",
+      method: 'POST',
     });
     const { key } = await b.json();
     await navigator.clipboard.writeText(key);
@@ -202,9 +202,9 @@ export default function SceneTable({
         <Box
           sx={{
             px: { sm: 2 },
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <TextField
@@ -272,7 +272,7 @@ export default function SceneTable({
                           {keyLoadingSceneId === row.id && (
                             <CircularProgress
                               size={36}
-                              sx={{ position: "absolute" }}
+                              sx={{ position: 'absolute' }}
                             />
                           )}
                           <Tooltip title="Generate stream key">
@@ -342,7 +342,7 @@ export default function SceneTable({
         open={showMergeScene}
         onClose={() => setShowMergeScene(false)}
         onSceneQueued={() => {
-          setToastMsg("Building merged scene. Check back shortly.");
+          setToastMsg('Building merged scene. Check back shortly.');
           setShowMergeScene(false);
         }}
         scenesToMerge={Array.from(selected)}

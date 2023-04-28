@@ -1,7 +1,7 @@
-import { Delete } from "@mui/icons-material";
-import { IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import React from "react";
+import { Delete } from '@mui/icons-material';
+import { IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
+import React from 'react';
 
 interface Props {
   readonly numSelected: number;
@@ -32,7 +32,7 @@ export const TableToolbar = ({
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: '1 1 100%' }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -40,7 +40,7 @@ export const TableToolbar = ({
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography sx={{ flex: "1 1 100%" }} variant="h6" component="div">
+        <Typography sx={{ flex: '1 1 100%' }} variant="h6" component="div">
           {title}
         </Typography>
       )}

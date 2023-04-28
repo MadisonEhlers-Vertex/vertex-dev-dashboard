@@ -1,4 +1,4 @@
-import { CloudUploadOutlined } from "@mui/icons-material";
+import { CloudUploadOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -11,12 +11,12 @@ import {
   FormControlLabel,
   LinearProgress,
   TextField,
-} from "@mui/material";
-import { CreateFileRequestDataAttributes } from "@vertexvis/api-client-node";
-import { useRouter } from "next/router";
-import React from "react";
+} from '@mui/material';
+import { CreateFileRequestDataAttributes } from '@vertexvis/api-client-node';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { CreateFileRes } from "../../pages/api/files";
+import { CreateFileRes } from '../../pages/api/files';
 
 interface CreateFileDialogProps {
   readonly open: boolean;
@@ -52,17 +52,17 @@ export default function CreateFileDialog({
     }
 
     const fileRes: CreateFileRes = await (
-      await fetch("/api/files", {
-        method: "POST",
+      await fetch('/api/files', {
+        method: 'POST',
         body: JSON.stringify(attrs),
       })
     ).json();
 
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
     await fetch(`/api/upload?f=${fileRes.id}`, {
-      method: "POST",
+      method: 'POST',
       body: formData,
     });
 
@@ -99,12 +99,12 @@ export default function CreateFileDialog({
           type="text"
         />
 
-        <Box sx={{ py: 2, display: "flex" }}>
+        <Box sx={{ py: 2, display: 'flex' }}>
           <label htmlFor="btn-upload">
             <input
               id="btn-upload"
               name="btn-upload"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               type="file"
               onChange={(e) => {
                 setSubmitDisabled(false);
@@ -115,7 +115,7 @@ export default function CreateFileDialog({
               Choose File
             </Button>
           </label>
-          {!!file && <span style={{ marginLeft: "auto" }}>{file?.name}</span>}
+          {!!file && <span style={{ marginLeft: 'auto' }}>{file?.name}</span>}
         </Box>
         <FormControlLabel
           control={
@@ -130,7 +130,7 @@ export default function CreateFileDialog({
       <Fade
         in={progress}
         style={{
-          transitionDelay: progress ? "300ms" : "0ms",
+          transitionDelay: progress ? '300ms' : '0ms',
         }}
         unmountOnExit
       >

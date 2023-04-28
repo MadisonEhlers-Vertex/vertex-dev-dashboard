@@ -1,8 +1,8 @@
-import { List, ListItem, ListItemText, Typography } from "@mui/material";
-import { SceneViewStateData } from "@vertexvis/api-client-node";
-import React from "react";
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { SceneViewStateData } from '@vertexvis/api-client-node';
+import React from 'react';
 
-import { toLocaleString } from "../../lib/dates";
+import { toLocaleString } from '../../lib/dates';
 
 interface Props {
   readonly sceneViewStates?: SceneViewStateData[];
@@ -33,7 +33,7 @@ export function SceneViewStateList({
           >
             <ListItemText
               primary={s.attributes.name || s.id}
-              secondary={s.id + "\n" + toLocaleString(s.attributes.created)}
+              secondary={s.id + '\n' + toLocaleString(s.attributes.created)}
             />
           </ListItem>
         );

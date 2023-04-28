@@ -9,6 +9,6 @@ export function dateDiffInDays(a: Date, b: Date = new Date()): number {
   return Math.floor((utc2 - utc1) / MS_PER_DAY);
 }
 
-export function toLocaleString(date?: string, fallback = ""): string {
+export function toLocaleString(date?: string, fallback = ''): string {
   return date ? new Date(date).toLocaleString() : fallback;
 }

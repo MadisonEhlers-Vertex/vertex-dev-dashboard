@@ -1,4 +1,4 @@
-import { Add, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { Add, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import {
   Button,
   Checkbox,
@@ -10,14 +10,14 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
-import { toLocaleString } from "../../lib/dates";
-import { Paged } from "../../lib/paging";
-import { PartRevision } from "../../lib/part-revisions";
-import { toPartRevisionPage } from "../../lib/part-revisions";
-import { Part } from "../../lib/parts";
+import { toLocaleString } from '../../lib/dates';
+import { Paged } from '../../lib/paging';
+import { PartRevision } from '../../lib/part-revisions';
+import { toPartRevisionPage } from '../../lib/part-revisions';
+import { Part } from '../../lib/parts';
 
 interface PartRowProps {
   readonly part: Part;
@@ -58,7 +58,7 @@ export default function PartRow({
         tabIndex={-1}
         key={row.id}
         selected={isSelected}
-        sx={{ "& > *": { borderBottom: "unset" } }}
+        sx={{ '& > *': { borderBottom: 'unset' } }}
       >
         <TableCell>
           <IconButton size="small" onClick={() => setOpen(!open)}>
@@ -99,7 +99,7 @@ export default function PartRow({
                   revisions.items.map((r) => (
                     <TableRow
                       key={r.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell> {r.id} </TableCell>
                       <TableCell>{r.suppliedId}</TableCell>

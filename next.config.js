@@ -1,1 +1,1 @@
-module.exports = { images: { domains: ["avatars.githubusercontent.com"] } };
+module.exports = { images: { domains: ['avatars.githubusercontent.com'] } };

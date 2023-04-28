@@ -1,4 +1,4 @@
-import { Close, FileCopyOutlined } from "@mui/icons-material";
+import { Close, FileCopyOutlined } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -11,20 +11,20 @@ import {
   TableRow,
   Tooltip,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 import {
   OrthographicCamera,
   PerspectiveCamera,
-} from "@vertexvis/api-client-node";
-import React from "react";
-import { useForm } from "react-hook-form";
+} from '@vertexvis/api-client-node';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
-import { toLocaleString } from "../../lib/dates";
-import { Scene } from "../../lib/scenes";
-import { UpdateSceneReq } from "../../pages/api/scenes";
-import { Input } from "../shared/Input";
-import { RightDrawerWidth } from "../shared/Layout";
-import { VectorTable } from "../shared/VectorTable";
+import { toLocaleString } from '../../lib/dates';
+import { Scene } from '../../lib/scenes';
+import { UpdateSceneReq } from '../../pages/api/scenes';
+import { Input } from '../shared/Input';
+import { RightDrawerWidth } from '../shared/Layout';
+import { VectorTable } from '../shared/VectorTable';
 
 interface Props {
   readonly editing: boolean;
@@ -33,7 +33,7 @@ interface Props {
   readonly onClose: () => void;
 }
 
-type FormData = Omit<UpdateSceneReq, "id">;
+type FormData = Omit<UpdateSceneReq, 'id'>;
 
 export function SceneDrawer({
   editing,
@@ -47,9 +47,9 @@ export function SceneDrawer({
   });
 
   async function onSubmit(data: FormData) {
-    await fetch("/api/scenes", {
+    await fetch('/api/scenes', {
       body: JSON.stringify({ id: scene?.id, ...data }),
-      method: "PATCH",
+      method: 'PATCH',
     });
     onClose();
   }
@@ -65,13 +65,13 @@ export function SceneDrawer({
   function isOrthographic(
     camera: OrthographicCamera | PerspectiveCamera
   ): camera is OrthographicCamera {
-    return camera.type === "orthographic";
+    return camera.type === 'orthographic';
   }
 
   function isPerspective(
     camera: OrthographicCamera | PerspectiveCamera
   ): camera is PerspectiveCamera {
-    return camera.type === "perspective";
+    return camera.type === 'perspective';
   }
 
   return (
@@ -81,13 +81,13 @@ export function SceneDrawer({
       sx={{
         flexShrink: 0,
         width: RightDrawerWidth,
-        "& .MuiDrawer-paper": { width: RightDrawerWidth },
+        '& .MuiDrawer-paper': { width: RightDrawerWidth },
       }}
       variant="persistent"
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography sx={{ my: 2, mx: 2 }} variant="h5">
-          {editing ? "Edit Scene" : "Scene Details"}
+          {editing ? 'Edit Scene' : 'Scene Details'}
         </Typography>
         <IconButton onClick={onClose} sx={{ mr: 2 }}>
           <Close />
@@ -104,8 +104,8 @@ export function SceneDrawer({
             />
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "flex-end",
+                display: 'flex',
+                justifyContent: 'flex-end',
                 my: 2,
               }}
             >
@@ -160,7 +160,7 @@ export function SceneDrawer({
       ) : scene ? (
         <>
           <TableContainer>
-            <Table size="small" style={{ whiteSpace: "nowrap" }}>
+            <Table size="small" style={{ whiteSpace: 'nowrap' }}>
               <TableBody>
                 <TableRow>
                   <TableCell>
@@ -215,9 +215,9 @@ export function SceneDrawer({
                     <TableCell>
                       <Box
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                         }}
                       >
                         <Typography variant="subtitle2">Camera</Typography>

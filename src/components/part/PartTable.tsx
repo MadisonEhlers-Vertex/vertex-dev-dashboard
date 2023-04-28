@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -12,38 +12,38 @@ import {
   TablePagination,
   TableRow,
   TextField,
-} from "@mui/material";
-import { Cursors } from "@vertexvis/api-client-node";
-import debounce from "lodash.debounce";
-import { useRouter } from "next/router";
-import React from "react";
-import useSWR from "swr";
+} from '@mui/material';
+import { Cursors } from '@vertexvis/api-client-node';
+import debounce from 'lodash.debounce';
+import { useRouter } from 'next/router';
+import React from 'react';
+import useSWR from 'swr';
 
-import { dateDiffInDays } from "../../lib/dates";
-import { SwrProps } from "../../lib/paging";
-import { toPartPage } from "../../lib/parts";
-import CreateSceneDialog from "../shared/CreateSceneDialog";
-import { DataLoadError } from "../shared/DataLoadError";
-import { DefaultPageSize, DefaultRowHeight } from "../shared/Layout";
-import { SkeletonBody } from "../shared/SkeletonBody";
-import { HeadCell, TableHead } from "../shared/TableHead";
-import { TableToolbar } from "../shared/TableToolbar";
-import CreatePartDialog from "./CreatePartDialog";
-import PartRow from "./PartRow";
-import { QueuedTranslationsTable } from "./QueuedTranslationsTable";
+import { dateDiffInDays } from '../../lib/dates';
+import { SwrProps } from '../../lib/paging';
+import { toPartPage } from '../../lib/parts';
+import CreateSceneDialog from '../shared/CreateSceneDialog';
+import { DataLoadError } from '../shared/DataLoadError';
+import { DefaultPageSize, DefaultRowHeight } from '../shared/Layout';
+import { SkeletonBody } from '../shared/SkeletonBody';
+import { HeadCell, TableHead } from '../shared/TableHead';
+import { TableToolbar } from '../shared/TableToolbar';
+import CreatePartDialog from './CreatePartDialog';
+import PartRow from './PartRow';
+import { QueuedTranslationsTable } from './QueuedTranslationsTable';
 
 const headCells: readonly HeadCell[] = [
-  { id: "expand", label: "", beforeCheckbox: true },
-  { id: "name", label: "Name" },
-  { id: "supplied-id", label: "Supplied ID" },
-  { id: "id", label: "ID" },
-  { id: "created", label: "Created" },
+  { id: 'expand', label: '', beforeCheckbox: true },
+  { id: 'name', label: 'Name' },
+  { id: 'supplied-id', label: 'Supplied ID' },
+  { id: 'id', label: 'ID' },
+  { id: 'created', label: 'Created' },
 ];
 
 function useParts({ cursor, pageSize, suppliedId }: SwrProps) {
   return useSWR(
-    `/api/parts?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ""}${
-      suppliedId ? `&suppliedId=${suppliedId}` : ""
+    `/api/parts?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ''}${
+      suppliedId ? `&suppliedId=${suppliedId}` : ''
     }`,
     { refreshInterval: 30000 }
   );
@@ -122,16 +122,16 @@ export default function PartTable(): JSX.Element {
 
   async function handleDelete() {
     setSelected(new Set());
-    await fetch("/api/parts", {
+    await fetch('/api/parts', {
       body: JSON.stringify({ ids: [...selected] }),
-      method: "DELETE",
+      method: 'DELETE',
     });
     mutate();
   }
 
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: 'flex' }}>
         <QueuedTranslationsTable
           title="Running Translations"
           refreshInterval={10000}
@@ -161,9 +161,9 @@ export default function PartTable(): JSX.Element {
         <Box
           sx={{
             px: { sm: 2 },
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <TextField

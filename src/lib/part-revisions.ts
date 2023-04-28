@@ -1,12 +1,12 @@
 import {
   PartRevisionData,
   PartRevisionDataAttributes,
-} from "@vertexvis/api-client-node";
+} from '@vertexvis/api-client-node';
 
-import { GetRes } from "./api";
-import { Paged, toPage } from "./paging";
+import { GetRes } from './api';
+import { Paged, toPage } from './paging';
 
-export type PartRevision = Pick<PartRevisionData, "id"> &
+export type PartRevision = Pick<PartRevisionData, 'id'> &
   PartRevisionDataAttributes;
 
 export function toPartRevisionPage(

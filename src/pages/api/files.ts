@@ -5,8 +5,8 @@ import {
   head,
   logError,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -18,29 +18,29 @@ import {
   Res,
   ServerError,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession, makeCall } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession, makeCall } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 type CreateFileReq = CreateFileRequestDataAttributes;
 
-export type CreateFileRes = Res & Pick<FileMetadataData, "id">;
+export type CreateFileRes = Res & Pick<FileMetadataData, 'id'>;
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<FileMetadataData> | Res | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "DELETE") {
+  if (req.method === 'DELETE') {
     const r = await del(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -93,7 +93,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | CreateFileRes> {
   const b: CreateFileReq = JSON.parse(req.body);
   const c = await getClientFromSession(req.session);
   const res = await c.files.createFile({
-    createFileRequest: { data: { type: "file", attributes: b } },
+    createFileRequest: { data: { type: 'file', attributes: b } },
   });
 
   return { status: 200, id: res.data.data.id };

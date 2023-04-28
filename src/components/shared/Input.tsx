@@ -1,12 +1,12 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import React from "react";
+import { TextField, TextFieldProps } from '@mui/material';
+import React from 'react';
 import {
   Control,
   Controller,
   Path,
   PathValue,
   RegisterOptions,
-} from "react-hook-form";
+} from 'react-hook-form';
 
 interface Custom<T> {
   readonly control: Control<T>;
@@ -15,7 +15,7 @@ interface Custom<T> {
   readonly name: Path<T>;
   readonly rules?: Omit<
     RegisterOptions<T, Path<T>>,
-    "valueAsNumber" | "valueAsDate" | "setValueAs"
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs'
   >;
 }
 

@@ -3,8 +3,8 @@ import {
   TableCell,
   TableHead as MuiTableHead,
   TableRow,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
 export interface HeadCell {
   readonly beforeCheckbox?: boolean;
@@ -48,8 +48,8 @@ function renderHeadCells(cells: readonly HeadCell[]): JSX.Element[] {
   return cells.map((hc) => (
     <TableCell
       key={hc.id}
-      align={hc.numeric ? "right" : "left"}
-      padding={hc.disablePadding ? "none" : "normal"}
+      align={hc.numeric ? 'right' : 'left'}
+      padding={hc.disablePadding ? 'none' : 'normal'}
     >
       {hc.label}
     </TableCell>

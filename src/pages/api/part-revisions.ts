@@ -4,8 +4,8 @@ import {
   logError,
   PartRevisionData,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   ErrorRes,
@@ -13,15 +13,15 @@ import {
   MethodNotAllowed,
   ServerError,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<PartRevisionData> | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(r.status).json(r);
   }

@@ -1,10 +1,10 @@
-import { Box } from "@mui/material";
-import { VertexSceneTreeTableCellCustomEvent } from "@vertexvis/viewer";
+import { Box } from '@mui/material';
+import { VertexSceneTreeTableCellCustomEvent } from '@vertexvis/viewer';
 
-import { SceneTreeTableCellEventDetails } from "@vertexvis/viewer/dist/types/components/scene-tree-table-cell/scene-tree-table-cell";
-import { VertexSceneTree } from "@vertexvis/viewer-react";
-import React from "react";
-import { EnvironmentWithCustom, NetworkConfig } from "../../lib/with-session";
+import { SceneTreeTableCellEventDetails } from '@vertexvis/viewer/dist/types/components/scene-tree-table-cell/scene-tree-table-cell';
+import { VertexSceneTree } from '@vertexvis/viewer-react';
+import React from 'react';
+import { EnvironmentWithCustom, NetworkConfig } from '../../lib/with-session';
 
 interface Props {
   readonly configEnv: EnvironmentWithCustom;
@@ -39,17 +39,17 @@ export function SceneTree({
           `Selected ${node.suppliedId?.value ?? node.id?.hex},${node.name}`
         );
 
-        onRowClick(node.id?.hex || "");
+        onRowClick(node.id?.hex || '');
       }
     };
 
     effectRef?.addEventListener(
-      "selectionToggled",
+      'selectionToggled',
       onSelection as EventListener
     );
     return () =>
       effectRef?.removeEventListener(
-        "selectionToggled",
+        'selectionToggled',
         onSelection as EventListener
       );
   }, [ref, onRowClick]);
@@ -70,12 +70,12 @@ export function SceneTree({
   }, [collapseAll]);
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={{ height: '100%' }}>
       <VertexSceneTree
-        configEnv={configEnv !== "custom" ? configEnv : undefined}
+        configEnv={configEnv !== 'custom' ? configEnv : undefined}
         id="vertex-scene-tree"
         config={
-          networkConfig != null && configEnv === "custom"
+          networkConfig != null && configEnv === 'custom'
             ? JSON.stringify({
                 network: {
                   ...networkConfig,

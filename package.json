@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.5.0",
     "@emotion/cache": "^11.10.7",
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",
@@ -38,7 +39,7 @@
     "eslint-plugin-react": "^7",
     "eslint-plugin-react-hooks": "^4",
     "eslint-plugin-simple-import-sort": "^7.0",
-    "prettier": "^2.4",
+    "prettier": "^2.8.8",
     "tslib": "^2.3",
     "typescript": "^4"
   },

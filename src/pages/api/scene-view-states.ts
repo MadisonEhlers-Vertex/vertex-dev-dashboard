@@ -6,8 +6,8 @@ import {
   SceneViewRelationshipDataTypeEnum,
   SceneViewStateData,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -17,29 +17,29 @@ import {
   Res,
   ServerError,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type CreateViewStateReq = Pick<
   CreateSceneViewStateRequestDataAttributes,
-  "name"
+  'name'
 > & {
   readonly viewId: string;
 };
 
-export type CreateViewStateRes = Pick<SceneViewStateData, "id"> & Res;
+export type CreateViewStateRes = Pick<SceneViewStateData, 'id'> & Res;
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<SceneViewStateData> | Res | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -85,7 +85,7 @@ async function create(
     id: sceneId,
     createSceneViewStateRequest: {
       data: {
-        type: "scene-view-state",
+        type: 'scene-view-state',
         attributes: {
           name: b.name,
         },

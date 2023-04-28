@@ -3,23 +3,23 @@ import {
   logError,
   SceneItemData,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   ErrorRes,
   MethodNotAllowed,
   ServerError,
   toErrorRes,
-} from "../../../lib/api";
-import { getClientFromSession } from "../../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../../lib/with-session";
+} from '../../../lib/api';
+import { getClientFromSession } from '../../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../../lib/with-session';
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<SceneItemData | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(200).json(r);
   }
@@ -33,7 +33,7 @@ async function get(req: NextIronRequest): Promise<ErrorRes | SceneItemData> {
     const id = head(req.query.id);
     const item = await c.sceneItems.getSceneItem({
       id,
-      fieldsSceneItem: "id,suppliedId,name,metadata",
+      fieldsSceneItem: 'id,suppliedId,name,metadata',
     });
 
     return item.data.data;

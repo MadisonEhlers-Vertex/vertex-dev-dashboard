@@ -1,6 +1,6 @@
-import { AppBar as MuiAppBar, Box, Toolbar } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import React from "react";
+import { AppBar as MuiAppBar, Box, Toolbar } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React from 'react';
 
 export const BottomDrawerHeight = 240;
 export const DenseToolbarHeight = 48;
@@ -26,10 +26,10 @@ interface DrawerProps {
 
 function shouldForwardProp(prop: PropertyKey): boolean {
   return (
-    prop !== "bottomDrawerHeight" &&
-    prop !== "leftDrawerWidth" &&
-    prop !== "rightDrawerWidth" &&
-    prop !== "toolbarHeight"
+    prop !== 'bottomDrawerHeight' &&
+    prop !== 'leftDrawerWidth' &&
+    prop !== 'rightDrawerWidth' &&
+    prop !== 'toolbarHeight'
   );
 }
 
@@ -43,7 +43,7 @@ const AppBar = styled(MuiAppBar, { shouldForwardProp })<DrawerProps>(
         marginRight: rightDrawerWidth,
         width: `calc(100% - ${leftDrawerWidth + rightDrawerWidth}px)`,
       }),
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down('sm')]: {
         margin: 0,
         width: `100%`,
       },
@@ -51,7 +51,7 @@ const AppBar = styled(MuiAppBar, { shouldForwardProp })<DrawerProps>(
   }
 );
 
-const Main = styled("main", { shouldForwardProp })<
+const Main = styled('main', { shouldForwardProp })<
   DrawerProps & { bottomDrawerHeight: number; toolbarHeight: number }
 >(
   ({
@@ -66,7 +66,7 @@ const Main = styled("main", { shouldForwardProp })<
       height: `calc(100% - ${bottomDrawerHeight + toolbarHeight}px)`,
       marginTop: `${toolbarHeight}px`,
       width: `calc(100% - ${leftDrawerWidth}px)`,
-      [theme.breakpoints.down("sm")]: { width: `100%` },
+      [theme.breakpoints.down('sm')]: { width: `100%` },
       ...(rightDrawerWidth > 0 && {
         width: `calc(100% - ${leftDrawerWidth + rightDrawerWidth}px)`,
       }),
@@ -91,7 +91,7 @@ export function Layout({
   const tbh = header ? DenseToolbarHeight : 0;
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
       {header && (
         <AppBar
           color="default"

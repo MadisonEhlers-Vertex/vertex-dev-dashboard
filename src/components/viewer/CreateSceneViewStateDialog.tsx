@@ -5,13 +5,13 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
 import {
   CreateViewStateReq,
   CreateViewStateRes,
-} from "../../pages/api/scene-view-states";
+} from '../../pages/api/scene-view-states';
 
 interface CreateViewStateDialogProps {
   readonly open: boolean;
@@ -40,8 +40,8 @@ export default function CreatePartDialog({
       };
 
       const res: CreateViewStateRes = await (
-        await fetch("/api/scene-view-states", {
-          method: "POST",
+        await fetch('/api/scene-view-states', {
+          method: 'POST',
           body: JSON.stringify(attrs),
         })
       ).json();

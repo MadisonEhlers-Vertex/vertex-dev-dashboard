@@ -1,10 +1,10 @@
-/* @jsx jsx */ /** @jsxRuntime classic */ import { jsx } from "@emotion/react";
+/* @jsx jsx */ /** @jsxRuntime classic */ import { jsx } from '@emotion/react';
 import {
   CameraAltOutlined,
   FileCopyOutlined,
   SystemUpdateAltOutlined,
   ZoomOutMapOutlined,
-} from "@mui/icons-material";
+} from '@mui/icons-material';
 import {
   Alert,
   Autocomplete,
@@ -15,28 +15,28 @@ import {
   ListItemText,
   Snackbar,
   TextField,
-} from "@mui/material";
-import { vertexvis } from "@vertexvis/frame-streaming-protos";
+} from '@mui/material';
+import { vertexvis } from '@vertexvis/frame-streaming-protos';
 import {
   TapEventDetails,
   JSX as ViewerJSX,
   VertexViewerCustomEvent,
-} from "@vertexvis/viewer";
+} from '@vertexvis/viewer';
 import {
   VertexViewer,
   VertexViewerToolbar,
   VertexViewerViewCube,
-} from "@vertexvis/viewer-react";
-import { useRouter } from "next/router";
-import React from "react";
-import { useHotkeys } from "react-hotkeys-hook";
+} from '@vertexvis/viewer-react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
-import { StreamCredentials } from "../../lib/config";
-import { copySceneViewCamera, fitAll, getCamera } from "../../lib/scene-items";
-import { NetworkConfig } from "../../lib/with-session";
-import { UpdateSceneReq } from "../../pages/api/scenes";
-import CreateSceneViewStateDialog from "./CreateSceneViewStateDialog";
-import { ViewerSpeedDial } from "./ViewerSpeedDial";
+import { StreamCredentials } from '../../lib/config';
+import { copySceneViewCamera, fitAll, getCamera } from '../../lib/scene-items';
+import { NetworkConfig } from '../../lib/with-session';
+import { UpdateSceneReq } from '../../pages/api/scenes';
+import CreateSceneViewStateDialog from './CreateSceneViewStateDialog';
+import { ViewerSpeedDial } from './ViewerSpeedDial';
 
 interface ViewerProps extends ViewerJSX.VertexViewer {
   readonly credentials: StreamCredentials;
@@ -79,7 +79,7 @@ function UnwrappedViewer({
   const [toastMsg, setToastMsg] = React.useState<string | undefined>();
   const router = useRouter();
 
-  useHotkeys("s", () => handleShortcutS(), { keyup: true });
+  useHotkeys('s', () => handleShortcutS(), { keyup: true });
 
   function handleShortcutS() {
     if (ref?.current == null) return;
@@ -93,7 +93,7 @@ function UnwrappedViewer({
 
   async function handleUpdateBaseCamera() {
     const { sceneId } = router.query;
-    const parsedSceneId = Array.isArray(sceneId) ? sceneId[0] : sceneId || "";
+    const parsedSceneId = Array.isArray(sceneId) ? sceneId[0] : sceneId || '';
     const camera = await getCamera({ viewer: viewer.current });
 
     if (camera) {
@@ -106,34 +106,34 @@ function UnwrappedViewer({
         },
       };
 
-      await fetch("/api/scenes", {
+      await fetch('/api/scenes', {
         body: JSON.stringify(req),
-        method: "PATCH",
+        method: 'PATCH',
       });
 
-      setToastMsg("Base scene camera updated.");
+      setToastMsg('Base scene camera updated.');
     }
   }
 
   const actions: Action[] = [
     {
       icon: <ZoomOutMapOutlined fontSize="small" />,
-      label: "Fit All",
+      label: 'Fit All',
       onSelect: () => fitAll({ viewer: viewer.current }),
     },
     {
       icon: <FileCopyOutlined fontSize="small" />,
-      label: "Copy camera",
+      label: 'Copy camera',
       onSelect: () => copySceneViewCamera({ viewer: viewer.current }),
     },
     {
       icon: <CameraAltOutlined fontSize="small" />,
-      label: "Create View State",
+      label: 'Create View State',
       onSelect: () => setCreateViewState(true),
     },
     {
       icon: <SystemUpdateAltOutlined fontSize="small" />,
-      label: "Update base scene with current camera",
+      label: 'Update base scene with current camera',
       onSelect: handleUpdateBaseCamera,
     },
   ];
@@ -147,14 +147,14 @@ function UnwrappedViewer({
   return (
     <VertexViewer
       configEnv={
-        credentials.vertexEnv !== "custom" ? credentials.vertexEnv : undefined
+        credentials.vertexEnv !== 'custom' ? credentials.vertexEnv : undefined
       }
       config={
-        credentials.vertexEnv === "custom" && networkConfig != null
+        credentials.vertexEnv === 'custom' && networkConfig != null
           ? stringConfig
           : undefined
       }
-      css={{ height: "100%", width: "100%" }}
+      css={{ height: '100%', width: '100%' }}
       clientId={credentials.clientId}
       id={viewerId}
       ref={viewer}
@@ -169,15 +169,15 @@ function UnwrappedViewer({
               if (v == null) return;
 
               if (
-                e.type === "keydown" &&
-                (e as React.KeyboardEvent).key === "Enter"
+                e.type === 'keydown' &&
+                (e as React.KeyboardEvent).key === 'Enter'
               ) {
                 handleClose();
                 v.onSelect();
               }
             }}
             onClose={(_, reason: AutocompleteCloseReason) => {
-              if (reason === "escape") handleClose();
+              if (reason === 'escape') handleClose();
             }}
             options={actions}
             size="small"

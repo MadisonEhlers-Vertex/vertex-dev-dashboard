@@ -1,7 +1,7 @@
-import assert from "assert";
-import { NextApiResponse } from "next";
+import assert from 'assert';
+import { NextApiResponse } from 'next';
 
-import withSession, { getToken, NextIronRequest } from "../../lib/with-session";
+import withSession, { getToken, NextIronRequest } from '../../lib/with-session';
 
 export default withSession(function handler(
   req: NextIronRequest,

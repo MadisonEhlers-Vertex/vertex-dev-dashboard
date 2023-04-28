@@ -1,23 +1,23 @@
-import { SceneItemData, SceneViewStateData } from "@vertexvis/api-client-node";
-import { vertexvis } from "@vertexvis/frame-streaming-protos";
-import { Environment } from "@vertexvis/viewer";
-import { useRouter } from "next/router";
-import React from "react";
-import useSWR from "swr";
+import { SceneItemData, SceneViewStateData } from '@vertexvis/api-client-node';
+import { vertexvis } from '@vertexvis/frame-streaming-protos';
+import { Environment } from '@vertexvis/viewer';
+import { useRouter } from 'next/router';
+import React from 'react';
+import useSWR from 'swr';
 
-import { Header } from "../../components/shared/Header";
-import { Layout } from "../../components/viewer/Layout";
-import { LeftDrawer } from "../../components/viewer/LeftDrawer";
-import { RightDrawer } from "../../components/viewer/RightDrawer";
-import { Viewer } from "../../components/viewer/Viewer";
-import { ErrorRes, GetRes } from "../../lib/api";
-import { head, StreamCredentials } from "../../lib/config";
-import { Metadata, toMetadata, toMetadataFromItem } from "../../lib/metadata";
-import { applySceneViewState, selectByHit } from "../../lib/scene-items";
-import { useViewer } from "../../lib/viewer";
-import { CommonProps, defaultServerSideProps } from "../../lib/with-session";
+import { Header } from '../../components/shared/Header';
+import { Layout } from '../../components/viewer/Layout';
+import { LeftDrawer } from '../../components/viewer/LeftDrawer';
+import { RightDrawer } from '../../components/viewer/RightDrawer';
+import { Viewer } from '../../components/viewer/Viewer';
+import { ErrorRes, GetRes } from '../../lib/api';
+import { head, StreamCredentials } from '../../lib/config';
+import { Metadata, toMetadata, toMetadataFromItem } from '../../lib/metadata';
+import { applySceneViewState, selectByHit } from '../../lib/scene-items';
+import { useViewer } from '../../lib/viewer';
+import { CommonProps, defaultServerSideProps } from '../../lib/with-session';
 
-const ViewerId = "vertex-viewer-id";
+const ViewerId = 'vertex-viewer-id';
 
 function useSceneViewStates({ viewId }: { viewId?: string }) {
   return useSWR<GetRes<SceneViewStateData>, ErrorRes>(
@@ -94,7 +94,7 @@ export default function SceneViewer({
     }
   }, [selectedItem.data, selectedItemFromTree]);
 
-  const featureLines = { width: 0.5, color: "#444444" };
+  const featureLines = { width: 0.5, color: '#444444' };
 
   return router.isReady && credentials ? (
     <Layout
@@ -159,7 +159,7 @@ export function encodeCreds({
   vertexEnv: Environment;
   sceneId?: string;
 }): string {
-  const path = `scene-viewer/${sceneId ? sceneId : "unknown"}`;
+  const path = `scene-viewer/${sceneId ? sceneId : 'unknown'}`;
   const cId = `clientId=${encodeURIComponent(clientId)}`;
   const sk = `streamKey=${encodeURIComponent(streamKey)}`;
   const ve = `vertexEnv=${encodeURIComponent(vertexEnv)}`;

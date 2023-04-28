@@ -1,5 +1,5 @@
-import { defineCustomElements } from "@vertexvis/viewer/loader";
-import React from "react";
+import { defineCustomElements } from '@vertexvis/viewer/loader';
+import React from 'react';
 
 interface Viewer {
   readonly ref: React.MutableRefObject<HTMLVertexViewerElement | null>;

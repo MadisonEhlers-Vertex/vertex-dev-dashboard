@@ -10,8 +10,8 @@ import {
   UpdateSceneRequestDataAttributes,
   UpdateSceneRequestDataAttributesStateEnum,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -23,42 +23,42 @@ import {
   Res,
   ServerError,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession, makeCall } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession, makeCall } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type CreateSceneReq = Pick<
   CreateSceneRequestDataAttributes,
-  "suppliedId" | "name"
+  'suppliedId' | 'name'
 > & {
   readonly revisionId: string;
 };
 
-export type CreateSceneRes = Pick<QueuedJobData, "id"> & Res;
+export type CreateSceneRes = Pick<QueuedJobData, 'id'> & Res;
 
-export type UpdateSceneReq = Pick<ScenesApiUpdateSceneRequest, "id"> &
-  Pick<UpdateSceneRequestDataAttributes, "name" | "suppliedId" | "camera">;
+export type UpdateSceneReq = Pick<ScenesApiUpdateSceneRequest, 'id'> &
+  Pick<UpdateSceneRequestDataAttributes, 'name' | 'suppliedId' | 'camera'>;
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<SceneData> | Res | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "DELETE") {
+  if (req.method === 'DELETE') {
     const r = await del(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "PATCH") {
+  if (req.method === 'PATCH') {
     const r = await upd(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -114,7 +114,7 @@ async function upd(req: NextIronRequest): Promise<ErrorRes | Res> {
     c.scenes.updateScene({
       id,
       updateSceneRequest: {
-        data: { attributes: { name, suppliedId, camera }, type: "scene" },
+        data: { attributes: { name, suppliedId, camera }, type: 'scene' },
       },
     })
   );
@@ -133,7 +133,7 @@ async function create(
   const s = await c.scenes.createScene({
     createSceneRequest: {
       data: {
-        type: "scene",
+        type: 'scene',
         attributes: {
           name,
           suppliedId,
@@ -149,7 +149,7 @@ async function create(
     id: sceneId,
     createSceneItemRequest: {
       data: {
-        type: "scene-item",
+        type: 'scene-item',
         attributes: {},
         relationships: {
           source: {
@@ -171,7 +171,7 @@ async function create(
           attributes: {
             state: UpdateSceneRequestDataAttributesStateEnum.Commit,
           },
-          type: "scene",
+          type: 'scene',
         },
       },
     })

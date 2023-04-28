@@ -3,8 +3,8 @@ import {
   SceneData,
   SceneRelationshipDataTypeEnum,
   UpdateSceneRequestDataAttributesStateEnum,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   ErrorRes,
@@ -12,9 +12,9 @@ import {
   InvalidBody,
   MethodNotAllowed,
   Res,
-} from "../../lib/api";
-import { getClientFromSession, makeCall } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession, makeCall } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type MergeSceneReq = {
   readonly name?: string;
@@ -30,7 +30,7 @@ export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<SceneData> | Res | ErrorRes>
 ): Promise<void> {
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -48,7 +48,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | MergeSceneRes> {
   const s = await c.scenes.createScene({
     createSceneRequest: {
       data: {
-        type: "scene",
+        type: 'scene',
         attributes: {
           name,
           suppliedId,
@@ -64,7 +64,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | MergeSceneRes> {
     id: sceneId,
     createSceneItemRequest: {
       data: {
-        type: "scene-item",
+        type: 'scene-item',
         attributes: {
           name,
           suppliedId: suppliedId,
@@ -80,7 +80,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | MergeSceneRes> {
         id: sceneId,
         createSceneItemRequest: {
           data: {
-            type: "scene-item",
+            type: 'scene-item',
             attributes: {
               parent: suppliedId,
             },
@@ -109,7 +109,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | MergeSceneRes> {
               type: CameraFitTypeEnum.FitVisibleSceneItems,
             },
           },
-          type: "scene",
+          type: 'scene',
         },
       },
     })

@@ -1,11 +1,11 @@
-import { ChevronLeft } from "@mui/icons-material";
-import { Box, Divider, Drawer, IconButton, Tooltip } from "@mui/material";
-import { drawerClasses } from "@mui/material/Drawer";
-import React from "react";
-import { EnvironmentWithCustom, NetworkConfig } from "../../lib/with-session";
+import { ChevronLeft } from '@mui/icons-material';
+import { Box, Divider, Drawer, IconButton, Tooltip } from '@mui/material';
+import { drawerClasses } from '@mui/material/Drawer';
+import React from 'react';
+import { EnvironmentWithCustom, NetworkConfig } from '../../lib/with-session';
 
-import { LeftDrawerWidth } from "./Layout";
-import { SceneTree } from "./SceneTree";
+import { LeftDrawerWidth } from './Layout';
+import { SceneTree } from './SceneTree';
 
 interface Props {
   readonly configEnv: EnvironmentWithCustom;
@@ -17,7 +17,7 @@ interface Props {
   readonly onItemSelected: (itemId: string) => void;
 }
 
-const IconWidth = "36px";
+const IconWidth = '36px';
 const ExpandAll = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -56,15 +56,15 @@ export function LeftDrawer({
       open={open}
       variant="persistent"
       sx={{
-        [`& .${drawerClasses.paper}`]: { position: "relative", width: 0 },
+        [`& .${drawerClasses.paper}`]: { position: 'relative', width: 0 },
         [`& .${drawerClasses.paperAnchorLeft}`]: { width: LeftDrawerWidth },
       }}
     >
       <Box
         sx={{
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "space-between",
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
           py: 0.5,
         }}
       >

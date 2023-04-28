@@ -1,8 +1,8 @@
-import { Vector3 } from "@vertexvis/api-client-node";
-import { vertexvis } from "@vertexvis/frame-streaming-protos";
-import { Components } from "@vertexvis/viewer";
+import { Vector3 } from '@vertexvis/api-client-node';
+import { vertexvis } from '@vertexvis/frame-streaming-protos';
+import { Components } from '@vertexvis/viewer';
 
-import { AnimationDurationMs } from "../components/viewer/Viewer";
+import { AnimationDurationMs } from '../components/viewer/Viewer';
 
 interface Req {
   readonly viewer: Components.VertexViewer | null;

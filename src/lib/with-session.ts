@@ -1,18 +1,18 @@
-import { OAuth2Token } from "@vertexvis/api-client-node";
-import { Environment } from "@vertexvis/viewer";
+import { OAuth2Token } from '@vertexvis/api-client-node';
+import { Environment } from '@vertexvis/viewer';
 import {
   GetServerSidePropsResult,
   NextApiRequest,
   NextApiResponse,
-} from "next";
+} from 'next';
 import {
   Handler,
   Session,
   SessionOptions,
   withIronSession,
-} from "next-iron-session";
+} from 'next-iron-session';
 
-export type EnvironmentWithCustom = Environment | "custom";
+export type EnvironmentWithCustom = Environment | 'custom';
 
 export interface NetworkConfig {
   apiHost: string;
@@ -37,18 +37,18 @@ export type OAuthCredentials = {
   readonly secret: string;
 };
 
-const CookieName = "sess";
-const CredsKey = "creds";
-const TokenKey = "token";
-const EnvKey = "env";
-const NetworkConfig = "networkConfig";
+const CookieName = 'sess';
+const CredsKey = 'creds';
+const TokenKey = 'token';
+const EnvKey = 'env';
+const NetworkConfig = 'networkConfig';
 
 export const CookieAttributes: SessionOptions = {
-  password: process.env.COOKIE_SECRET || "",
+  password: '',
   cookieName: CookieName,
   cookieOptions: {
     // Allow session use in non-https environments like localhost
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === 'production',
   },
 };
 
@@ -73,10 +73,10 @@ export function serverSidePropsHandler({
   const token: SessionToken | undefined = session.get(TokenKey);
   const creds: OAuthCredentials | undefined = session.get(CredsKey);
   const networkConfig: NetworkConfig | undefined = session.get(NetworkConfig);
-  const vertexEnv: Environment = session.get(EnvKey) || "platdev";
+  const vertexEnv: Environment = session.get(EnvKey) || 'platdev';
 
   if (!session || !creds || !token) {
-    return { redirect: { statusCode: 302, destination: "/login" } };
+    return { redirect: { statusCode: 302, destination: '/login' } };
   }
 
   return { props: { clientId: creds.id, vertexEnv, networkConfig } };

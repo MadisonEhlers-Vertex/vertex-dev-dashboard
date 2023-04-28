@@ -1,6 +1,6 @@
-import Router from "next/router";
-import { useEffect } from "react";
-import useSWR from "swr";
+import Router from 'next/router';
+import { useEffect } from 'react';
+import useSWR from 'swr';
 
 interface UseUserResponse {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,10 +14,10 @@ interface UseUserResponse {
 }
 
 export default function useUser({
-  redirectTo = "",
+  redirectTo = '',
   redirectIfFound = false,
 } = {}): UseUserResponse {
-  const { data: user, mutate } = useSWR("/api/user");
+  const { data: user, mutate } = useSWR('/api/user');
 
   useEffect(() => {
     // if no redirect needed, just return (example: already on /dashboard)

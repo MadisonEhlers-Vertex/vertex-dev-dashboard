@@ -7,8 +7,8 @@ import {
   PartData,
   QueuedJobData,
   VertexError,
-} from "@vertexvis/api-client-node";
-import { NextApiResponse } from "next";
+} from '@vertexvis/api-client-node';
+import { NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -20,34 +20,34 @@ import {
   Res,
   ServerError,
   toErrorRes,
-} from "../../lib/api";
-import { getClientFromSession, makeCall } from "../../lib/vertex-api";
-import withSession, { NextIronRequest } from "../../lib/with-session";
+} from '../../lib/api';
+import { getClientFromSession, makeCall } from '../../lib/vertex-api';
+import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type CreatePartReq = Pick<
   CreatePartRequestDataAttributes,
-  "suppliedId" | "suppliedRevisionId" | "indexMetadata"
+  'suppliedId' | 'suppliedRevisionId' | 'indexMetadata'
 > & {
   readonly fileId: string;
 };
 
-export type CreatePartRes = Pick<QueuedJobData, "id"> & Res;
+export type CreatePartRes = Pick<QueuedJobData, 'id'> & Res;
 
 export default withSession(async function handle(
   req: NextIronRequest,
   res: NextApiResponse<GetRes<PartData> | Res | ErrorRes>
 ): Promise<void> {
-  if (req.method === "GET") {
+  if (req.method === 'GET') {
     const r = await get(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "DELETE") {
+  if (req.method === 'DELETE') {
     const r = await del(req);
     return res.status(r.status).json(r);
   }
 
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     const r = await create(req);
     return res.status(r.status).json(r);
   }
@@ -100,7 +100,7 @@ async function create(req: NextIronRequest): Promise<ErrorRes | CreatePartRes> {
   const res = await c.parts.createPart({
     createPartRequest: {
       data: {
-        type: "part",
+        type: 'part',
         attributes: {
           suppliedId: b.suppliedId,
           suppliedRevisionId: b.suppliedRevisionId,

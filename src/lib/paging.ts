@@ -1,6 +1,6 @@
-import { Cursors } from "@vertexvis/api-client-node";
+import { Cursors } from '@vertexvis/api-client-node';
 
-import { GetRes } from "./api";
+import { GetRes } from './api';
 
 export interface Paged<T> {
   readonly cursors: Cursors | null; // Must use null for proper NextJS serialization
@@ -16,7 +16,7 @@ export interface SwrProps {
 export function toPage<T extends { attributes: TA; id: string }, TA>({
   cursors,
   data,
-}: GetRes<T>): Paged<TA & Pick<T, "id">> {
+}: GetRes<T>): Paged<TA & Pick<T, 'id'>> {
   return {
     cursors: cursors ?? null,
     items: data.map(({ id, attributes }) => ({ ...attributes, id })),

@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add } from '@mui/icons-material';
 import {
   Alert,
   Box,
@@ -13,35 +13,35 @@ import {
   TablePagination,
   TableRow,
   TextField,
-} from "@mui/material";
-import { Cursors } from "@vertexvis/api-client-node";
-import debounce from "lodash.debounce";
-import React from "react";
-import useSWR from "swr";
+} from '@mui/material';
+import { Cursors } from '@vertexvis/api-client-node';
+import debounce from 'lodash.debounce';
+import React from 'react';
+import useSWR from 'swr';
 
-import { toLocaleString } from "../../lib/dates";
-import { toFilePage } from "../../lib/files";
-import { SwrProps } from "../../lib/paging";
-import { DataLoadError } from "../shared/DataLoadError";
-import { DefaultPageSize, DefaultRowHeight } from "../shared/Layout";
-import { SkeletonBody } from "../shared/SkeletonBody";
-import { HeadCell, TableHead } from "../shared/TableHead";
-import { TableToolbar } from "../shared/TableToolbar";
-import CreateFileDialog from "./CreateFileDialog";
+import { toLocaleString } from '../../lib/dates';
+import { toFilePage } from '../../lib/files';
+import { SwrProps } from '../../lib/paging';
+import { DataLoadError } from '../shared/DataLoadError';
+import { DefaultPageSize, DefaultRowHeight } from '../shared/Layout';
+import { SkeletonBody } from '../shared/SkeletonBody';
+import { HeadCell, TableHead } from '../shared/TableHead';
+import { TableToolbar } from '../shared/TableToolbar';
+import CreateFileDialog from './CreateFileDialog';
 
 export const headCells: readonly HeadCell[] = [
-  { id: "name", disablePadding: true, label: "Name" },
-  { id: "supplied-id", label: "Supplied ID" },
-  { id: "status", label: "Status" },
-  { id: "id", label: "ID" },
-  { id: "created", label: "Created" },
-  { id: "uploaded", label: "Uploaded" },
+  { id: 'name', disablePadding: true, label: 'Name' },
+  { id: 'supplied-id', label: 'Supplied ID' },
+  { id: 'status', label: 'Status' },
+  { id: 'id', label: 'ID' },
+  { id: 'created', label: 'Created' },
+  { id: 'uploaded', label: 'Uploaded' },
 ];
 
 function useFiles({ cursor, pageSize, suppliedId }: SwrProps) {
   return useSWR(
-    `/api/files?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ""}${
-      suppliedId ? `&suppliedId=${suppliedId}` : ""
+    `/api/files?pageSize=${pageSize}${cursor ? `&cursor=${cursor}` : ''}${
+      suppliedId ? `&suppliedId=${suppliedId}` : ''
     }`
   );
 }
@@ -108,9 +108,9 @@ export default function FilesTable(): JSX.Element {
 
   async function handleDelete() {
     setSelected(new Set());
-    await fetch("/api/files", {
+    await fetch('/api/files', {
       body: JSON.stringify({ ids: [...selected] }),
-      method: "DELETE",
+      method: 'DELETE',
     });
     mutate();
   }
@@ -126,9 +126,9 @@ export default function FilesTable(): JSX.Element {
         <Box
           sx={{
             px: { sm: 2 },
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <TextField

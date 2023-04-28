@@ -1,6 +1,6 @@
-import { SpeedDial, SpeedDialAction } from "@mui/material";
+import { SpeedDial, SpeedDialAction } from '@mui/material';
 
-import { Action } from "./Viewer";
+import { Action } from './Viewer';
 
 interface Props {
   readonly actions: Action[];

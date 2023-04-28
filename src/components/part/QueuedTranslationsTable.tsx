@@ -9,13 +9,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React from "react";
-import useSWR from "swr";
+} from '@mui/material';
+import React from 'react';
+import useSWR from 'swr';
 
-import { toLocaleString } from "../../lib/dates";
-import { QueuedJob, toQueuedJobPage } from "../../lib/queued-jobs";
-import { SkeletonBody } from "../shared/SkeletonBody";
+import { toLocaleString } from '../../lib/dates';
+import { QueuedJob, toQueuedJobPage } from '../../lib/queued-jobs';
+import { SkeletonBody } from '../shared/SkeletonBody';
 
 interface QueuedTranslationsTableProps {
   readonly status: string;
@@ -57,9 +57,9 @@ export function QueuedTranslationsTable({
     <TableContainer sx={{ m: 2 }} component={Paper}>
       <Box
         sx={{
-          alignItems: "center",
-          display: "flex",
-          justifyContent: "space-between",
+          alignItems: 'center',
+          display: 'flex',
+          justifyContent: 'space-between',
           p: 2,
         }}
       >
@@ -86,7 +86,7 @@ export function QueuedTranslationsTable({
             items.map((row) => (
               <TableRow
                 key={row.id}
-                sx={{ "&:last-child td": { borderBottom: 0 } }}
+                sx={{ '&:last-child td': { borderBottom: 0 } }}
               >
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{toLocaleString(row.created)}</TableCell>

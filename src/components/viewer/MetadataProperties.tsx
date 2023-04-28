@@ -6,10 +6,10 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import React from "react";
+} from '@mui/material';
+import React from 'react';
 
-import { Metadata } from "../../lib/metadata";
+import { Metadata } from '../../lib/metadata';
 
 interface Props {
   readonly metadata?: Metadata;
@@ -23,7 +23,7 @@ export function MetadataProperties({ metadata }: Props): JSX.Element {
 
   return (
     <TableContainer>
-      <Table size="small" style={{ whiteSpace: "nowrap" }}>
+      <Table size="small" style={{ whiteSpace: 'nowrap' }}>
         <TableHead>
           <TableRow>
             <TableCell>
