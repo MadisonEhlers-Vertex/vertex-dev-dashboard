@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   CreateSceneRequestDataAttributes,
   getPage,
@@ -11,7 +12,7 @@ import {
   UpdateSceneRequestDataAttributesStateEnum,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -25,7 +26,7 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession, makeCall } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
+
 
 export type CreateSceneReq = Pick<
   CreateSceneRequestDataAttributes,
@@ -39,8 +40,8 @@ export type CreateSceneRes = Pick<QueuedJobData, 'id'> & Res;
 export type UpdateSceneReq = Pick<ScenesApiUpdateSceneRequest, 'id'> &
   Pick<UpdateSceneRequestDataAttributes, 'name' | 'suppliedId' | 'camera'>;
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<SceneData> | Res | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -67,10 +68,10 @@ export default withSession(async function handle(
 });
 
 async function get(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | GetRes<SceneData>> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const ps = head(req.query.pageSize);
     const pc = head(req.query.cursor);
     const sId = head(req.query.suppliedId);
@@ -92,24 +93,24 @@ async function get(
   }
 }
 
-async function del(req: NextIronRequest): Promise<ErrorRes | Res> {
+async function del(req: NextApiRequest): Promise<ErrorRes | Res> {
   if (!req.body) return BodyRequired;
 
   const b: DeleteReq = JSON.parse(req.body);
   if (!b.ids) return InvalidBody;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   await Promise.all(
     b.ids.map((id) => makeCall(() => c.scenes.deleteScene({ id })))
   );
   return { status: 200 };
 }
 
-async function upd(req: NextIronRequest): Promise<ErrorRes | Res> {
+async function upd(req: NextApiRequest): Promise<ErrorRes | Res> {
   if (!req.body) return BodyRequired;
 
   const { id, name, suppliedId, camera }: UpdateSceneReq = JSON.parse(req.body);
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   await makeCall(() =>
     c.scenes.updateScene({
       id,
@@ -122,14 +123,14 @@ async function upd(req: NextIronRequest): Promise<ErrorRes | Res> {
 }
 
 async function create(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | CreateSceneRes> {
   const b: CreateSceneReq = JSON.parse(req.body);
   if (!req.body) return InvalidBody;
 
   const { suppliedId, name, revisionId }: CreateSceneReq = b;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const s = await c.scenes.createScene({
     createSceneRequest: {
       data: {

@@ -12,19 +12,13 @@ import {
 import assert from 'assert';
 import { AxiosResponse } from 'axios';
 import type { NextApiResponse } from 'next';
-import { Session } from 'next-iron-session';
 
 import { ErrorRes, ServerError } from './api';
 import {
   getCreds,
   getEnv,
-  getNetworkConfig,
-  getToken as getSessionToken,
   NetworkConfig,
-  setToken,
 } from './with-session';
-
-const TenMinsInMs = 600_000;
 
 const basePath = (env: string, networkConfig?: NetworkConfig) => {
   if (env === 'custom' && networkConfig != null) {
@@ -80,59 +74,30 @@ export async function getClientWithCreds(
   id: string,
   secret: string,
   env: string,
-  token: OAuth2Token,
-  networkConfig?: NetworkConfig
 ): Promise<VertexClient> {
+  console.log('env: ', env);
   const client = await VertexClient.build({
-    basePath: basePath(env, networkConfig),
+    basePath: `https://platform.platdev.vertexvis.io`,
     client: {
       id,
       secret,
     },
-    initialToken: token,
   });
 
   return client;
 }
 
 export async function getClientFromSession(
-  session: Session
 ): Promise<VertexClient> {
-  const creds = getCreds(session);
-  const env = getEnv(session);
-  const networkConfig = getNetworkConfig(session);
-  const token = getSessionToken(session);
+  const creds = getCreds();
+  const env = getEnv();
   assert(creds != null);
   assert(env != null);
-  assert(token != null);
-
-  const expiresIn = token.expiration - Date.now();
-  if (expiresIn < TenMinsInMs) {
-    const newToken = await getToken(creds.id, creds.secret, env, networkConfig);
-    const newExpiration = Date.now() + newToken.expires_in * 1000;
-
-    setToken(session, { token: newToken, expiration: newExpiration });
-    return getClientWithCreds(
-      creds.id,
-      creds.secret,
-      env,
-      {
-        ...newToken,
-        expires_in: newExpiration,
-      },
-      networkConfig
-    );
-  }
 
   return getClientWithCreds(
     creds.id,
     creds.secret,
     env,
-    {
-      ...token.token,
-      expires_in: expiresIn,
-    },
-    networkConfig
   );
 }
 

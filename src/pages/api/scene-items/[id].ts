@@ -1,10 +1,11 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   head,
   logError,
   SceneItemData,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   ErrorRes,
@@ -13,10 +14,9 @@ import {
   toErrorRes,
 } from '../../../lib/api';
 import { getClientFromSession } from '../../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../../lib/with-session';
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<SceneItemData | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -27,9 +27,9 @@ export default withSession(async function handle(
   return res.status(MethodNotAllowed.status).json(MethodNotAllowed);
 });
 
-async function get(req: NextIronRequest): Promise<ErrorRes | SceneItemData> {
+async function get(req: NextApiRequest): Promise<ErrorRes | SceneItemData> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const id = head(req.query.id);
     const item = await c.sceneItems.getSceneItem({
       id,

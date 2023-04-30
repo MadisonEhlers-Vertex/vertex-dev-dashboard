@@ -1,8 +1,9 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   isFailure,
   StreamKeysApiCreateSceneStreamKeyRequest,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -13,7 +14,7 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession, makeCall } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
+
 
 export interface CreateStreamKeyRes extends Res {
   readonly key: string;
@@ -21,8 +22,8 @@ export interface CreateStreamKeyRes extends Res {
 
 type CreateStreamKeyReq = Pick<StreamKeysApiCreateSceneStreamKeyRequest, 'id'>;
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<CreateStreamKeyRes | ErrorRes>
 ): Promise<void> {
   if (req.method === 'POST') {
@@ -34,14 +35,14 @@ export default withSession(async function handle(
 });
 
 async function create(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | CreateStreamKeyRes> {
   if (!req.body) return BodyRequired;
 
   const b: CreateStreamKeyReq = JSON.parse(req.body);
   if (!b.id) return InvalidBody;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const r = await makeCall(() =>
     c.streamKeys.createSceneStreamKey({
       id: b.id,

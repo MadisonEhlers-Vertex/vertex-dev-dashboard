@@ -1,16 +1,6 @@
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
 import { OAuth2Token } from '@vertexvis/api-client-node';
 import { Environment } from '@vertexvis/viewer';
-import {
-  GetServerSidePropsResult,
-  NextApiRequest,
-  NextApiResponse,
-} from 'next';
-import {
-  Handler,
-  Session,
-  SessionOptions,
-  withIronSession,
-} from 'next-iron-session';
 
 export type EnvironmentWithCustom = Environment | 'custom';
 
@@ -36,84 +26,22 @@ export type OAuthCredentials = {
   readonly id: string;
   readonly secret: string;
 };
-
-const CookieName = 'sess';
-const CredsKey = 'creds';
-const TokenKey = 'token';
-const EnvKey = 'env';
 const NetworkConfig = 'networkConfig';
 
-export const CookieAttributes: SessionOptions = {
-  password: '',
-  cookieName: CookieName,
-  cookieOptions: {
-    // Allow session use in non-https environments like localhost
-    secure: process.env.NODE_ENV === 'production',
-  },
-};
 
-export type NextIronRequest = NextApiRequest & { readonly session: Session };
-
-export default function withSession(
-  handler: Handler<NextIronRequest, NextApiResponse>
-): Handler<NextApiRequest, NextApiResponse> {
-  return withIronSession(handler, CookieAttributes);
-}
-
-export const defaultServerSideProps = withIronSession(
-  serverSidePropsHandler,
-  CookieAttributes
-);
-
-export function serverSidePropsHandler({
-  req: { session },
-}: {
-  req: NextIronRequest;
-}): GetServerSidePropsResult<CommonProps> {
-  const token: SessionToken | undefined = session.get(TokenKey);
-  const creds: OAuthCredentials | undefined = session.get(CredsKey);
-  const networkConfig: NetworkConfig | undefined = session.get(NetworkConfig);
-  const vertexEnv: Environment = session.get(EnvKey) || 'platdev';
-
-  if (!session || !creds || !token) {
-    return { redirect: { statusCode: 302, destination: '/login' } };
+export function getCreds(): OAuthCredentials | undefined {
+  if (process.env.VERTEX_CLIENT_ID != null && process.env.VERTEX_CLIENT_SECRET != null) {
+    return {
+      id: process.env.VERTEX_CLIENT_ID,
+      secret: process.env.VERTEX_CLIENT_SECRET
+    }
   }
 
-  return { props: { clientId: creds.id, vertexEnv, networkConfig } };
+  return undefined;
 }
 
-export function getCreds(session: Session): OAuthCredentials | undefined {
-  return session.get(CredsKey);
-}
+export const defaultServerSideProps = withPageAuthRequired();
 
-export function getEnv(session: Session): Environment | undefined {
-  return session.get(EnvKey);
-}
-
-export function getNetworkConfig(session: Session): NetworkConfig | undefined {
-  return session.get(NetworkConfig);
-}
-
-export function getToken(session: Session): SessionToken | undefined {
-  return session.get(TokenKey);
-}
-
-export function setCreds(session: Session, val: OAuthCredentials): void {
-  session.set(CredsKey, val);
-}
-
-export function setEnv(
-  session: Session,
-  val: EnvironmentWithCustom,
-  networkConfig?: NetworkConfig
-): void {
-  session.set(EnvKey, val);
-
-  if (networkConfig) {
-    session.set(NetworkConfig, networkConfig);
-  }
-}
-
-export function setToken(session: Session, val: SessionToken): void {
-  session.set(TokenKey, val);
+export function getEnv(): Environment | undefined {
+  return 'platdev'
 }

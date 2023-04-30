@@ -1,10 +1,11 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   CameraFitTypeEnum,
   SceneData,
   SceneRelationshipDataTypeEnum,
   UpdateSceneRequestDataAttributesStateEnum,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   ErrorRes,
@@ -14,7 +15,6 @@ import {
   Res,
 } from '../../lib/api';
 import { getClientFromSession, makeCall } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type MergeSceneReq = {
   readonly name?: string;
@@ -26,8 +26,8 @@ export type MergeSceneRes = Res & {
   readonly queuedItemIds: string[];
 };
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<SceneData> | Res | ErrorRes>
 ): Promise<void> {
   if (req.method === 'POST') {
@@ -38,13 +38,13 @@ export default withSession(async function handle(
   return res.status(MethodNotAllowed.status).json(MethodNotAllowed);
 });
 
-async function create(req: NextIronRequest): Promise<ErrorRes | MergeSceneRes> {
+async function create(req: NextApiRequest): Promise<ErrorRes | MergeSceneRes> {
   const b: MergeSceneReq = JSON.parse(req.body);
   if (!req.body) return InvalidBody;
 
   const { suppliedId, name, sceneIds }: MergeSceneReq = b;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const s = await c.scenes.createScene({
     createSceneRequest: {
       data: {

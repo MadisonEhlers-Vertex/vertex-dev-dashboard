@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   CreatePartRequestDataAttributes,
   FileRelationshipDataTypeEnum,
@@ -8,7 +9,7 @@ import {
   QueuedJobData,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -22,7 +23,7 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession, makeCall } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
+
 
 export type CreatePartReq = Pick<
   CreatePartRequestDataAttributes,
@@ -33,8 +34,8 @@ export type CreatePartReq = Pick<
 
 export type CreatePartRes = Pick<QueuedJobData, 'id'> & Res;
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<PartData> | Res | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -55,9 +56,9 @@ export default withSession(async function handle(
   return res.status(MethodNotAllowed.status).json(MethodNotAllowed);
 });
 
-async function get(req: NextIronRequest): Promise<ErrorRes | GetRes<PartData>> {
+async function get(req: NextApiRequest): Promise<ErrorRes | GetRes<PartData>> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const ps = head(req.query.pageSize);
     const pc = head(req.query.cursor);
     const sId = head(req.query.suppliedId);
@@ -79,24 +80,24 @@ async function get(req: NextIronRequest): Promise<ErrorRes | GetRes<PartData>> {
   }
 }
 
-async function del(req: NextIronRequest): Promise<ErrorRes | Res> {
+async function del(req: NextApiRequest): Promise<ErrorRes | Res> {
   if (!req.body) return BodyRequired;
 
   const b: DeleteReq = JSON.parse(req.body);
   if (!b.ids) return InvalidBody;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   await Promise.all(
     b.ids.map((id) => makeCall(() => c.parts.deletePart({ id })))
   );
   return { status: 200 };
 }
 
-async function create(req: NextIronRequest): Promise<ErrorRes | CreatePartRes> {
+async function create(req: NextApiRequest): Promise<ErrorRes | CreatePartRes> {
   const b: CreatePartReq = JSON.parse(req.body);
   if (!req.body) return InvalidBody;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const res = await c.parts.createPart({
     createPartRequest: {
       data: {

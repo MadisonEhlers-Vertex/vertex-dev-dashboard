@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   CreateSceneViewStateRequestDataAttributes,
   getPage,
@@ -7,7 +8,7 @@ import {
   SceneViewStateData,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -19,7 +20,6 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
 
 export type CreateViewStateReq = Pick<
   CreateSceneViewStateRequestDataAttributes,
@@ -30,8 +30,8 @@ export type CreateViewStateReq = Pick<
 
 export type CreateViewStateRes = Pick<SceneViewStateData, 'id'> & Res;
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<SceneViewStateData> | Res | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -48,10 +48,10 @@ export default withSession(async function handle(
 });
 
 async function get(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | GetRes<SceneViewStateData>> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const vId = head(req.query.view);
     const view = await c.sceneViews.getSceneView({ id: vId });
     const sceneId = view.data.data.relationships.scene.data.id;
@@ -73,12 +73,12 @@ async function get(
 }
 
 async function create(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | CreateViewStateRes> {
   const b: CreateViewStateReq = JSON.parse(req.body);
   if (!req.body) return BodyRequired;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const view = await c.sceneViews.getSceneView({ id: b.viewId });
   const sceneId = view.data.data.relationships.scene.data.id;
   const res = await c.sceneViewStates.createSceneViewState({

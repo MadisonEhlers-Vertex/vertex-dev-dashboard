@@ -16,7 +16,6 @@
     "multer": "^1.4.4",
     "next": "^11.1",
     "next-connect": "^0.13.0",
-    "next-iron-session": "^4.2",
     "react": "^17.0",
     "react-dom": "^17.0",
     "react-hook-form": "^7.43.8",
@@ -46,7 +45,7 @@
   "scripts": {
     "build": "next build",
     "clean": "rm -rf .next/ node_modules/",
-    "dev": "next",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' next",
     "format": "prettier --write './**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|mdx|html|css)'",
     "lint": "next lint",
     "start": "next start"

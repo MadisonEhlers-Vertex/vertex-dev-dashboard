@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   CreateFileRequestDataAttributes,
   FileMetadataData,
@@ -6,7 +7,7 @@ import {
   logError,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   BodyRequired,
@@ -20,14 +21,14 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession, makeCall } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
+
 
 type CreateFileReq = CreateFileRequestDataAttributes;
 
 export type CreateFileRes = Res & Pick<FileMetadataData, 'id'>;
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<FileMetadataData> | Res | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -49,10 +50,10 @@ export default withSession(async function handle(
 });
 
 async function get(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | GetRes<FileMetadataData>> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const ps = head(req.query.pageSize);
     const pc = head(req.query.cursor);
     const sId = head(req.query.suppliedId);
@@ -74,24 +75,24 @@ async function get(
   }
 }
 
-async function del(req: NextIronRequest): Promise<ErrorRes | Res> {
+async function del(req: NextApiRequest): Promise<ErrorRes | Res> {
   if (!req.body) return BodyRequired;
 
   const b: DeleteReq = JSON.parse(req.body);
   if (!b.ids) return InvalidBody;
 
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   await Promise.all(
     b.ids.map((id) => makeCall(() => c.files.deleteFile({ id })))
   );
   return { status: 200 };
 }
 
-async function create(req: NextIronRequest): Promise<ErrorRes | CreateFileRes> {
+async function create(req: NextApiRequest): Promise<ErrorRes | CreateFileRes> {
   if (!req.body) return BodyRequired;
 
   const b: CreateFileReq = JSON.parse(req.body);
-  const c = await getClientFromSession(req.session);
+  const c = await getClientFromSession();
   const res = await c.files.createFile({
     createFileRequest: { data: { type: 'file', attributes: b } },
   });

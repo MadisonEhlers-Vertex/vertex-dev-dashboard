@@ -1,3 +1,4 @@
+import { withApiAuthRequired } from '@auth0/nextjs-auth0';
 import {
   getPage,
   head,
@@ -5,7 +6,7 @@ import {
   PartRevisionData,
   VertexError,
 } from '@vertexvis/api-client-node';
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import {
   ErrorRes,
@@ -15,10 +16,9 @@ import {
   toErrorRes,
 } from '../../lib/api';
 import { getClientFromSession } from '../../lib/vertex-api';
-import withSession, { NextIronRequest } from '../../lib/with-session';
 
-export default withSession(async function handle(
-  req: NextIronRequest,
+export default withApiAuthRequired(async function handle(
+  req: NextApiRequest,
   res: NextApiResponse<GetRes<PartRevisionData> | ErrorRes>
 ): Promise<void> {
   if (req.method === 'GET') {
@@ -30,10 +30,10 @@ export default withSession(async function handle(
 });
 
 async function get(
-  req: NextIronRequest
+  req: NextApiRequest
 ): Promise<ErrorRes | GetRes<PartRevisionData>> {
   try {
-    const c = await getClientFromSession(req.session);
+    const c = await getClientFromSession();
     const ps = head(req.query.pageSize);
     const pId = head(req.query.partId);
 
