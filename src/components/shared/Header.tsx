@@ -12,9 +12,8 @@ interface Props {
 export function Header({ onMenuClick, open }: Props): JSX.Element {
   const router = useRouter();
 
-  async function handleSignOut() {
-    await fetch('/api/logout');
-    router.push('/login');
+  function handleSignOut() {
+    router.push('/api/auth/logout');
   }
 
   return (
